@@ -35,5 +35,16 @@ public class WeatherDaoImpl implements WeatherDao {
 
     }
 
+    @Override
+    public void save(Weather weather) {
+        if (getByName(weather.getCityName())==null){
+            em.persist(weather);
+        }
+        else{
+            em.remove(getByName(weather.getCityName()));
+            em.persist(weather);
+        }
+    }
+
 
 }

@@ -5,4 +5,5 @@ import weather.entitys.Weather;
 public interface WeatherDao {
     public Weather getById(Integer id);
     public Weather getByName(String name);
+    public void save(Weather weather);
 }

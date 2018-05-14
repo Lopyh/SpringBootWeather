@@ -2,7 +2,7 @@ package weather;
 
 public class City {
     private String name;
-    private String asfd;
+
 
     public City() {
     }
@@ -19,11 +19,5 @@ public class City {
         this.name = name;
     }
 
-    public void setAsfd(String asfd) {
-        this.asfd = asfd;
-    }
 
-    public String getAsfd() {
-        return asfd;
-    }
 }

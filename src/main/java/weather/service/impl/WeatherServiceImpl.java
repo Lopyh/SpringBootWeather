@@ -24,4 +24,10 @@ public class WeatherServiceImpl implements WeatherService {
         return weatherDao.getByName(name);
     }
 
+    @Override
+    @Transactional
+    public void save(Weather weather) {
+        weatherDao.save(weather);
+    }
+
 }

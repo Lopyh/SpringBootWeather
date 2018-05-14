@@ -14,20 +14,19 @@ import weather.service.WeatherService;
 @Controller
 @RequestMapping(value = "/", produces = "application/json")
 public class WeatherController {
-
-    @ResponseBody
-    @RequestMapping("/hello/{name}")
-    String hello(@PathVariable String name) {
-        return "Hello, " + name + "!";
-    }
-
-
     String url = "https://query.yahooapis.com/v1/public/yql?q=select " +
             "* from weather.forecast where woeid in (select woeid from geo.places(1) " +
             "where text=\"";
 
     @Autowired
     WeatherService weatherService;
+
+    /**Пробный запрос*/
+    @ResponseBody
+    @RequestMapping("/hello/{name}")
+    String hello(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
 
     @RequestMapping(value = "/city", method = RequestMethod.GET)
     public ModelAndView getCity(){
@@ -50,17 +49,24 @@ public class WeatherController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         RestTemplate restTemplate = new RestTemplate();
-        MyPojo pojo = restTemplate.getForObject(url + city.getName()+"\") and u=\"c\"&format=json&env= store://datatables.org/alltableswithkeys",
-                MyPojo.class);
-        System.out.println(city.getName());
-        Weather weather =  new Weather();
-        weather.setCityName(pojo.getQuery().getResults().getChannel().getLocation().getCity());
-        weather.setAtmospherePressure(pojo.getQuery().getResults().getChannel().getAtmosphere().getPressure());
-        weather.setAstronomySunrise(pojo.getQuery().getResults().getChannel().getAstronomy().getSunrise());
-        weather.setAstronomySunset(pojo.getQuery().getResults().getChannel().getAstronomy().getSunset());
-        weather.setWindSpeed(pojo.getQuery().getResults().getChannel().getWind().getSpeed());
-        weather.setTemperature(pojo.getQuery().getResults().getChannel().getItem().getCondition().getTemp());
-        System.out.println(pojo);
+        try{
+            MyPojo pojo = restTemplate.getForObject(url + city.getName()+"\") and u=\"c\"&format=json&env= store://datatables.org/alltableswithkeys",
+                    MyPojo.class);
+            System.out.println(city.getName());
+            Weather weather =  new Weather();
+            weather.setCityName(pojo.getQuery().getResults().getChannel().getLocation().getCity());
+            weather.setAtmospherePressure(pojo.getQuery().getResults().getChannel().getAtmosphere().getPressure());
+            weather.setAstronomySunrise(pojo.getQuery().getResults().getChannel().getAstronomy().getSunrise());
+            weather.setAstronomySunset(pojo.getQuery().getResults().getChannel().getAstronomy().getSunset());
+            weather.setWindSpeed(pojo.getQuery().getResults().getChannel().getWind().getSpeed());
+            weather.setTemperature(pojo.getQuery().getResults().getChannel().getItem().getCondition().getTemp());
+            System.out.println(weather);
+            weatherService.save(weather);
+        }
+        catch(Exception e){
+            return modelAndView;
+        }
+
         return modelAndView;
     }
 }
