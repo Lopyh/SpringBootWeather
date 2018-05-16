@@ -7,11 +7,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.annotation.EnableJms;
 import weather.dao.WeatherDao;
 
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableJms
 public class Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
