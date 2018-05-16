@@ -1,6 +1,8 @@
 package weather.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -21,10 +23,20 @@ public class WeatherController {
     @Autowired
     WeatherService weatherService;
 
+    @Autowired
+    JmsTemplate jmsTemplate;
+
+
+
+    public void send(String msg){
+        jmsTemplate.convertAndSend("inbound.topic", msg);
+    }
+
     /**Пробный запрос*/
     @ResponseBody
     @RequestMapping("/hello/{name}")
     String hello(@PathVariable String name) {
+        send("Pavel:26");
         return "Hello, " + name + "!";
     }
 
