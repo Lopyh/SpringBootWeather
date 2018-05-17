@@ -19,6 +19,8 @@ public class JmsConfig {
         connectionFactory.setBrokerURL(BROKER_URL);
         connectionFactory.setPassword(BROKER_USERNAME);
         connectionFactory.setUserName(BROKER_PASSWORD);
+        /**Добавляет возможность отправки экземпляра класса как сообщение. Класс должен implements Serializable*/
+        connectionFactory.setTrustAllPackages(true);
         return connectionFactory;
     }
 
@@ -26,7 +28,7 @@ public class JmsConfig {
     @Bean
     public JmsTemplate jmsTemplate(){
         JmsTemplate template = new JmsTemplate();
-        //this for topic
+        /**this for topic*/
         template.setPubSubDomain(true);
         template.setConnectionFactory(connectionFactory());
         return template;
@@ -35,7 +37,7 @@ public class JmsConfig {
     @Bean
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        //this for topic
+        /**this for topic*/
         factory.setPubSubDomain(true);
         factory.setConnectionFactory(connectionFactory());
         factory.setConcurrency("1-1");

@@ -1,7 +1,6 @@
 package weather.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ public class WeatherController {
 
 
 
-    public void send(String msg){
+    public void send(Weather msg){
         jmsTemplate.convertAndSend("inbound.topic", msg);
     }
 
@@ -36,7 +35,6 @@ public class WeatherController {
     @ResponseBody
     @RequestMapping("/hello/{name}")
     String hello(@PathVariable String name) {
-        send("Pavel:26");
         return "Hello, " + name + "!";
     }
 
@@ -73,7 +71,9 @@ public class WeatherController {
             weather.setWindSpeed(pojo.getQuery().getResults().getChannel().getWind().getSpeed());
             weather.setTemperature(pojo.getQuery().getResults().getChannel().getItem().getCondition().getTemp());
             System.out.println(weather);
-            weatherService.save(weather);
+            //weatherService.save(weather);
+            //jmsTemplate.convertAndSend("inbound.topic", weather.getClass());
+            send(weather);
         }
         catch(Exception e){
             return modelAndView;

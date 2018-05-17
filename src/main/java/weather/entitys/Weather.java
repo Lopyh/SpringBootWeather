@@ -2,10 +2,11 @@ package weather.entitys;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Weather")
-public class Weather {
+public class Weather implements Serializable {
     public Weather() {
     }
 
